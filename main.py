@@ -44,14 +44,14 @@ for i in range(100000):
     batch_xs , batch_ys , batch_fs =next_batch(batch_size , train_imgs , train_labs_)
     batch_xs=batch_xs/255.
     batch_ys=batch_ys.reshape([-1 ,1 ])
-    train_fetches = [train_op, accuracy_op, cost_op , logits ]
+    train_fetches = [train_op, accuracy_op, cost_mean , logits ]
     train_feedDict = {x_: batch_xs, y_: batch_ys, lr_: lr, is_training: True}
     _ , train_acc, train_loss , train_preds = sess.run( fetches=train_fetches, feed_dict=train_feedDict )
     values=batch_ys - train_preds
     indices=np.where([values  < 5 ])[0]
     rev_indices=np.where([values  > 5 ])[0]
     accuracy=len(batch_ys[indices]) / float(len(batch_ys))
-    print accuracy
+    print accuracy , train_loss
 
 
 
