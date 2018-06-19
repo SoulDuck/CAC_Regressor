@@ -59,5 +59,7 @@ for i in range(100000):
     #print accuracy , train_loss
     if i % 100 ==0 :
         print train_labs_path
-        print train_preds
+        print train_preds.T
+        print batch_ys
+
 
