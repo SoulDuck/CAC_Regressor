@@ -62,15 +62,18 @@ def loss_selecter(loss_name , y_ ,y_conv):
     loss_name=loss_name.lower()
 
     if loss_name == 'ce': # Cross Entropy
-        cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=y_conv, labels=y_), name='cost')
+        cost_op = tf.nn.softmax_cross_entropy_with_logits(logits=y_conv, labels=y_)
+        cost_mean = tf.reduce_mean(cost_op, name='cost')
     elif loss_name == 'll': # Meam Square Error
-        cost = tf.reduce_mean(tf.losses.log_loss(predictions=y_conv, labels=y_), name='cost')
+        cost_op= tf.losses.log_loss(predictions=y_conv, labels=y_)
+        cost = tf.reduce_mean(cost_op, name='cost')
     elif loss_name == 'mse': # Log Loss
-        cost = tf.reduce_mean(tf.losses.mean_squared_error(predictions=y_conv, labels=y_), name='cost')
+        cost_op = tf.losses.mean_squared_error(predictions=y_conv, labels=y_)
+        cost_mean = tf.reduce_mean(cost_op , name='cost')
     else:
         raise IndexError , 'Loss Must be '
 
-    return cost
+    return cost_op , cost_mean
 
 def optimizer_selecter(optimizer_name , learning_rate, cost_op  ):
 
@@ -102,12 +105,12 @@ def algorithm(y_conv , y_ , learning_rate , optimizer_name='sgd' , loss_name = '
 
     pred = tf.nn.softmax(y_conv, name='softmax')
     pred_cls = tf.argmax(pred, axis=1, name='pred_cls')
-    cost_op = loss_selecter(loss_name, y_, y_conv)
+    cost_op , cost_mean_op= loss_selecter(loss_name, y_, y_conv)
     train_op = optimizer_selecter(optimizer_name, learning_rate, cost_op)
 
     correct_pred = tf.equal(tf.argmax(y_conv, 1), tf.argmax(y_, 1), name='correct_pred')
     accuracy = tf.reduce_mean(tf.cast(correct_pred, dtype=tf.float32), name='accuracy')
-    return pred, pred_cls, cost_op, train_op, correct_pred, accuracy
+    return pred, pred_cls, cost_op, cost_mean_op , train_op, correct_pred, accuracy
 
 
 if __name__ == '__main__':

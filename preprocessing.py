@@ -148,13 +148,13 @@ if '__main__' == __name__:
             test_paths.extend(tmp_paths)
             test_cacs.extend([cac_score]*len(tmp_paths))
 
-
     if not os.path.exists('./train_imgs.npy'):
         train_imgs = paths2numpy(train_paths, './train_imgs.npy')
     if not os.path.exists('./test_imgs.npy'):
         test_imgs = paths2numpy(test_paths, './test_imgs.npy')
     if not os.path.exists('./val_imgs.npy'):
         val_imgs = paths2numpy(val_paths, './val_imgs.npy')
+
 
     if not os.path.exists('./train_labs.npy'):
         train_labs = labs2numpy(train_cacs, './train_labs.npy')
