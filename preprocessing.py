@@ -20,6 +20,12 @@ def paths2numpy(paths , savepath):
     np.save(file = savepath , arr = imgs)
     return imgs
 
+
+def labs2numpy( labels , savepath):
+    labels = np.asarray(labels)
+    np.save(file=savepath, arr=labels)
+    return labels
+
 def match_path2image(  patient_id , exam_date , image_dir , extension ) :
     src_dir = os.path.join(image_dir , patient_id , exam_date ,'*.'+extension)
     paths =glob.glob(src_dir)
@@ -151,8 +157,8 @@ if '__main__' == __name__:
         val_imgs = paths2numpy(val_paths, './val_imgs.npy')
 
     if not os.path.exists('./train_labs.npy'):
-        train_labs = paths2numpy(train_cacs, './train_labs.npy')
+        train_labs = labs2numpy(train_cacs, './train_labs.npy')
     if not os.path.exists('./test_labs.npy'):
-        test_labs = paths2numpy(test_cacs, './test_labs.npy')
+        test_labs = labs2numpy(test_cacs, './test_labs.npy')
     if not os.path.exists('./val_labs.npy'):
-        val_labs = paths2numpy(val_cacs, './val_labs.npy')
+        val_labs = labs2numpy(val_cacs, './val_labs.npy')
