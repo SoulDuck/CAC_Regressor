@@ -107,4 +107,6 @@ if '__main__' == __name__:
         tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
         train_paths.extend(tmp_paths)
         train_cacs.extend([cac_score]*len(tmp_paths))
+    print len(train_paths)
+    print len(train_cacs)
 
