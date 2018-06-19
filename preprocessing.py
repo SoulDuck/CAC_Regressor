@@ -8,6 +8,17 @@ import os
 import random
 import glob
 import csv
+
+
+def paths2numpy(paths , savepath):
+    imgs= []
+    for path in paths:
+        img=Image.open(path)
+        img=np.asarray(img)
+        imgs.append(img)
+    imgs=np.asarray(imgs)
+    np.save(objimgs, )
+
 def match_path2image(  patient_id , exam_date , image_dir , extension ) :
     src_dir = os.path.join(image_dir , patient_id , exam_date ,'*.'+extension)
     paths =glob.glob(src_dir)
@@ -92,10 +103,10 @@ def crop_margin(image , resize ):
 if '__main__' == __name__:
     #match_image2label('merged_cacs_info_with_path.csv' , './' )
     lab_0, lab_1, lab_2, lab_3=sort_cac('merged_cacs_info_with_path.csv')
-    lab_0_train , lab_0_val , lab_0_test=divide_paths_TVT(lab_0 , 75 , 75)
-    lab_1_train , lab_1_val , lab_1_test=divide_paths_TVT(lab_1 , 75 , 75)
-    lab_2_train , lab_2_val , lab_2_test=divide_paths_TVT(lab_2 , 75 , 75)
-    lab_3_train , lab_3_val , lab_3_test=divide_paths_TVT(lab_3 , 75 , 75)
+    lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
+    lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
+    lab_2_train, lab_2_val, lab_2_test = divide_paths_TVT(lab_2, 75, 75)
+    lab_3_train, lab_3_val, lab_3_test = divide_paths_TVT(lab_3, 75, 75)
 
 
     img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
