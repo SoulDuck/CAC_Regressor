@@ -41,9 +41,10 @@ pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorit
 
 
 for i in range(100000):
-    batch_xs, batch_ys = batch_selector(train_imgs, train_labs, 10, 10, 10, 10)
-    batch_xs=batch_xs/255.
-    batch_ys=batch_ys.reshape([-1 ,1 ])
+    batch_xs, batch_ys = batch_selector(train_imgs, train_labs, 5, 5, 5, 5)
+    print np.shape(batch_xs) , np.shape(batch_ys)
+    batch_xs = batch_xs / 255.
+    batch_ys = batch_ys.reshape([-1, 1])
     train_fetches = [train_op, accuracy_op, cost_mean , logits ]
     train_feedDict = {x_: batch_xs, y_: batch_ys, lr_: lr, is_training: True}
     _ , train_acc, train_loss , train_preds = sess.run( fetches=train_fetches, feed_dict=train_feedDict )
