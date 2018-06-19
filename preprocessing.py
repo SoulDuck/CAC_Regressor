@@ -37,10 +37,12 @@ def sort_cac(csv_path):
     return lab_0 , lab_1 , lab_2 ,lab_3
 
 
-def divide_paths_TVT(paths, n_val , n_test):
+def divide_paths_TVT(paths, n_val , n_test , prefix =None ):
     val_paths=paths[:n_val]
     test_paths = paths[n_val: n_val + n_test]
     train_paths=paths[ n_val + n_test : ]
+
+    print '{} trian : {} , val : {} test : {} '.format(prefix , len(train_paths) , len(val_paths) , len(test_paths))
 
     return train_paths , val_paths , test_paths
 
@@ -94,6 +96,8 @@ if '__main__' == __name__:
     lab_1_train , lab_1_val , lab_1_test=divide_paths_TVT(lab_1 , 75 , 75)
     lab_2_train , lab_2_val , lab_2_test=divide_paths_TVT(lab_2 , 75 , 75)
     lab_3_train , lab_3_val , lab_3_test=divide_paths_TVT(lab_3 , 75 , 75)
+
+
     img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
     train_cacs=[]
     train_paths = []
