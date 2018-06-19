@@ -28,7 +28,7 @@ val_labs_path='./cac_numpy_data/val_labs.npy'
 
 train_imgs , train_labs_, val_imgs , val_labs , test_imgs , test_labs = \
     map(np.load , [train_imgs_path , train_labs_path , val_imgs_path , val_labs_path , test_imgs_path , test_labs_path])
-train_imgs=train_imgs/255.
+#train_imgs=train_imgs/255.
 test_imgs=test_imgs/255.
 val_imgs=val_imgs/255.
 x_, y_, lr_, is_training, global_step = define_inputs(shape=[None, 540, 540, 3], n_classes=1)
@@ -42,6 +42,7 @@ pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorit
 
 for i in range(100000):
     batch_xs , batch_ys , batch_fs =next_batch(batch_size , train_imgs , train_labs_)
+    batch_xs=batch_xs/255.
     batch_ys=batch_ys.reshape([-1 ,1 ])
     train_fetches = [train_op, accuracy_op, cost_op , logits ]
     train_feedDict = {x_: batch_xs, y_: batch_ys, lr_: lr, is_training: True}
