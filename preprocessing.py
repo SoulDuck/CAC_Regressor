@@ -94,7 +94,7 @@ if '__main__' == __name__:
     lab_1_train , lab_1_val , lab_1_test=divide_paths_TVT(lab_1 , 75 , 75)
     lab_2_train , lab_2_val , lab_2_test=divide_paths_TVT(lab_2 , 75 , 75)
     lab_3_train , lab_3_val , lab_3_test=divide_paths_TVT(lab_3 , 75 , 75)
-    img_dir = './'
+    img_dir = '/home/mediwhale@'
     train_cacs=[]
     train_paths = []
 
