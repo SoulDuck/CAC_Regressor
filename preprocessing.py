@@ -9,7 +9,6 @@ import random
 import glob
 import csv
 
-
 def paths2numpy(paths , savepath):
     imgs= []
     for path in paths:
@@ -162,3 +161,4 @@ if '__main__' == __name__:
         test_labs = labs2numpy(test_cacs, './test_labs.npy')
     if not os.path.exists('./val_labs.npy'):
         val_labs = labs2numpy(val_cacs, './val_labs.npy')
+
