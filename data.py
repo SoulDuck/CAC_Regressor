@@ -19,19 +19,19 @@ def batch_selector(imgs ,labs  , batch_size_0 ,batch_size_1 ,batch_size_2 ,batch
     ret_imgs = []
     # print batch_selector(val_labs)
     lab_0_indices = np.where((labs < 1))[0]
-    print len(lab_0_indices)
+    #print len(lab_0_indices)
 
     lab_1_indices = np.where((labs < 9))[0]
     lab_1_indices = list((set(lab_1_indices) - set(lab_0_indices)))
-    print len(lab_1_indices)
+    #print len(lab_1_indices)
 
     lab_2_indices = np.where((labs < 100))[0]
     lab_2_indices = list((set(lab_2_indices) - set(lab_0_indices) - set(lab_1_indices)))
-    print len(lab_2_indices)
+    #print len(lab_2_indices)
 
     lab_3_indices = np.where((labs < 10000000))[0]
     lab_3_indices = list((set(lab_3_indices) - set(lab_2_indices) - set(lab_0_indices) - set(lab_1_indices)))
-    print len(lab_3_indices)
+    #print len(lab_3_indices)
     assert len(labs) == len(lab_0_indices) + len(lab_1_indices) + len(lab_2_indices) + len(lab_3_indices)
 
     random.shuffle(lab_0_indices)

@@ -40,9 +40,13 @@ sess, saver , summary_writer=sess_start(logs_path='./logs/vgg_11')
 pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorithm(logits, y_, lr_, 'sgd', 'mse')
 
 
+
 for i in range(100000):
+
+
+
     batch_xs, batch_ys = batch_selector(train_imgs, train_labs, 5, 5, 5, 5)
-    print np.shape(batch_xs) , np.shape(batch_ys)
+    #print np.shape(batch_xs) , np.shape(batch_ys)
     batch_xs = batch_xs / 255.
     batch_ys = batch_ys.reshape([-1, 1])
     train_fetches = [train_op, accuracy_op, cost_mean , logits ]
@@ -52,10 +56,5 @@ for i in range(100000):
     indices=np.where([values  < 5 ])[0]
     rev_indices=np.where([values  > 5 ])[0]
     accuracy=len(batch_ys[indices]) / float(len(batch_ys))
-
-
-
-
-
-
+    print accuracy
 
