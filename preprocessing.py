@@ -109,4 +109,6 @@ if '__main__' == __name__:
         train_cacs.extend([cac_score]*len(tmp_paths))
     print len(train_paths)
     print len(train_cacs)
+    print train_cacs[:10]
+    print train_cacs[-10:]
 
