@@ -99,16 +99,37 @@ if '__main__' == __name__:
 
 
     img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
-    train_cacs=[]
+    train_cacs = []
     train_paths = []
-
     for train_elements in [lab_0_train ,lab_1_train,lab_2_train,lab_3_train]:
         for elements in train_elements:
             pat_code, exam_date, cac_score = elements
             tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
             train_paths.extend(tmp_paths)
             train_cacs.extend([cac_score]*len(tmp_paths))
-
-
     print len(train_paths)
     print len(train_cacs)
+
+    val_cacs = []
+    val_paths = []
+    for val_elements in [lab_0_val ,lab_1_val,lab_2_val,lab_3_val]:
+        for elements in val_elements:
+            pat_code, exam_date, cac_score = elements
+            tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
+            val_paths.extend(tmp_paths)
+            val_cacs.extend([cac_score]*len(tmp_paths))
+    print len(val_paths)
+    print len(val_cacs)
+
+    test_cacs = []
+    test_paths = []
+    for test_elements in [lab_0_test ,lab_1_test,lab_2_test,lab_3_test]:
+        for elements in test_elements:
+            pat_code, exam_date, cac_score = elements
+            tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
+            test_paths.extend(tmp_paths)
+            test_cacs.extend([cac_score]*len(tmp_paths))
+
+
+    print len(test_paths)
+    print len(test_cacs)
