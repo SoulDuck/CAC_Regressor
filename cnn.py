@@ -66,12 +66,12 @@ def loss_selecter(loss_name , y_ ,y_conv):
         cost_mean = tf.reduce_mean(cost_op, name='cost')
     elif loss_name == 'll': # Meam Square Error
         cost_op= tf.losses.log_loss(predictions=y_conv, labels=y_)
-        cost = tf.reduce_mean(cost_op, name='cost')
+        cost_mean = tf.reduce_mean(cost_op, name='cost')
     elif loss_name == 'mse': # Log Loss
         cost_op = tf.losses.mean_squared_error(predictions=y_conv, labels=y_)
         cost_mean = tf.reduce_mean(cost_op , name='cost')
     else:
-        raise IndexError , 'Loss Must be '
+        raise IndexError , 'loss_name param  Must be one of [ce , ll , mse]'
 
     return cost_op , cost_mean
 
