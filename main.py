@@ -8,7 +8,7 @@ import argparse
 from data import batch_selector
 parser = argparse.ArgumentParser()
 parser.add_argument('--batch_size' ,'-bs' , type = int  )
-parser.add_argument('--init_lr' ,'-il' , type = float , default= 0.0001)
+parser.add_argument('--init_lr' ,'-il' , type = float , default= 0.00001)
 args=parser.parse_args()
 
 max_iter = 100000
@@ -52,9 +52,12 @@ for i in range(100000):
     train_fetches = [train_op, accuracy_op, cost_mean , logits ]
     train_feedDict = {x_: batch_xs, y_: batch_ys, lr_: lr, is_training: True}
     _ , train_acc, train_loss , train_preds = sess.run( fetches=train_fetches, feed_dict=train_feedDict )
-    values=batch_ys - train_preds
+    values = batch_ys - train_preds
     indices=np.where([values  < 5 ])[0]
     rev_indices=np.where([values  > 5 ])[0]
     accuracy=len(batch_ys[indices]) / float(len(batch_ys))
     print accuracy , train_loss
+    if i % 100 ==0 :
+        print train_labs_path
+        print train_preds
 
