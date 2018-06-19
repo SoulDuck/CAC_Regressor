@@ -17,7 +17,8 @@ def paths2numpy(paths , savepath):
         img=np.asarray(img)
         imgs.append(img)
     imgs=np.asarray(imgs)
-    np.save(objimgs, )
+    np.save(file = savepath , arr = imgs)
+    return imgs
 
 def match_path2image(  patient_id , exam_date , image_dir , extension ) :
     src_dir = os.path.join(image_dir , patient_id , exam_date ,'*.'+extension)
@@ -144,3 +145,7 @@ if '__main__' == __name__:
 
     print len(test_paths)
     print len(test_cacs)
+
+    train_imgs = paths2numpy(train_paths, './train.npy')
+    test_imgs = paths2numpy(test_paths, './test.npy')
+    val_imgs = paths2numpy(val_paths, './val.npy')
