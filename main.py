@@ -56,5 +56,5 @@ for i in range(100000):
     indices=np.where([values  < 5 ])[0]
     rev_indices=np.where([values  > 5 ])[0]
     accuracy=len(batch_ys[indices]) / float(len(batch_ys))
-    print accuracy
+    print accuracy , train_loss
 
