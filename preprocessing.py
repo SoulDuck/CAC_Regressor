@@ -102,13 +102,11 @@ if '__main__' == __name__:
     train_cacs=[]
     train_paths = []
 
-    for ele in lab_0:
-        pat_code, exam_date, cac_score = ele
-        tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
-        train_paths.extend(tmp_paths)
-        train_cacs.extend([cac_score]*len(tmp_paths))
-    print len(train_paths)
-    print len(train_cacs)
-    print train_cacs[:10]
-    print train_cacs[-10:]
+    for train_elements in [lab_0_train ,lab_1_train,lab_2_train,lab_3_train]:
+        for elements in train_elements:
+            pat_code, exam_date, cac_score = elements
+            tmp_paths =match_path2image(pat_code , exam_date , img_dir , 'png')
+            train_paths.extend(tmp_paths)
+            train_cacs.extend([cac_score]*len(tmp_paths))
+
 
