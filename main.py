@@ -59,3 +59,4 @@ for i in range(100000):
         print train_labs_path
         print train_preds.T
         print batch_ys.T
+        print train_loss
