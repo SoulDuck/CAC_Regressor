@@ -289,9 +289,9 @@ def make_data(data_id):
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
         img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
-        train_tfrecord_path = './train.tfrecord'
-        test_tfrecord_path = './test.tfrecord'
-        val_tfrecord_path = './val.tfrecord'
+        train_tfrecord_path = './train_0_10_11_inf.tfrecord'
+        test_tfrecord_path = './test_0_10_11_inf.tfrecord'
+        val_tfrecord_path = './val_0_10_11_inf.tfrecord'
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
 
@@ -317,4 +317,5 @@ def make_data(data_id):
 
 if '__main__' == __name__:
     make_data(data_id='0100-0000003-019')
+
 
