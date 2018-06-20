@@ -58,6 +58,4 @@ for i in range(100000):
     if i % 100 ==0 :
         print train_labs_path
         print train_preds.T
-        print batch_ys
-
-
+        print batch_ys.T
