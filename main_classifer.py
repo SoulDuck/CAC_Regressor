@@ -11,7 +11,6 @@ parser.add_argument('--batch_size' ,'-bs' , type = int  )
 parser.add_argument('--init_lr' ,'-il' , type = float , default= 0.00001)
 args=parser.parse_args()
 
-
 max_iter = 100000
 batch_size = args.batch_size
 lr = args.init_lr
@@ -33,9 +32,9 @@ test_imgs=test_imgs/255.
 val_imgs=val_imgs/255.
 
 
-x_, y_, lr_, is_training, global_step = define_inputs(shape=[None, 540, 540, 3], n_classes=1)
+x_, y_, lr_, is_training, global_step = define_inputs(shape=[None, 540, 540, 3], n_classes=3) # 1~9 / 10~100 / 100~inf
 
-logits = build_graph(x_=x_, y_=y_, is_training=is_training, aug_flag=True, actmap_flag=False, model='vgg_11',
+logits = build_graph(x_=x_, y_=y_, is_training=is_training, aug_flag=True, actmap_flag=True, model='vgg_11',
                      random_crop_resize=540, bn=True)
 sess, saver , summary_writer=sess_start(logs_path='./logs/vgg_11')
 pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorithm(logits, y_, lr_, 'sgd', 'mse')
@@ -43,6 +42,9 @@ pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorit
 
 
 for i in range(100000):
+
+
+
     batch_xs, batch_ys = batch_selector(train_imgs, train_labs, 5, 5, 5, 5)
     #print np.shape(batch_xs) , np.shape(batch_ys)
     batch_xs = batch_xs / 255.

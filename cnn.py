@@ -1,16 +1,17 @@
 import tensorflow as tf
 
-def convolution2d(name,x,out_ch,k=3 , s=2 , padding='SAME'):
+def convolution2d(name,x,out_ch,k=3 , s=2 , padding='SAME' , leakiness = 0.3):
     with tf.variable_scope(name) as scope:
         in_ch=x.get_shape()[-1]
         filter=tf.get_variable("w" , [k,k,in_ch , out_ch] , initializer=tf.contrib.layers.xavier_initializer())
         bias=tf.Variable(tf.constant(0.1) , out_ch)
         layer=tf.nn.conv2d(x , filter ,[1,s,s,1] , padding)+bias
-        layer=tf.nn.relu(layer , name='relu')
+        # leakly relu
+        leakiness = tf.Variable( leakiness , trainable=False)
+        layer = tf.maximum(layer , layer * leakiness)
         if __debug__ == True:
             print 'layer name : ' ,name
             print 'layer shape : ' ,layer.get_shape()
-
         return layer
 
 def max_pool(name,x , k=3 , s=2 , padding='SAME'):

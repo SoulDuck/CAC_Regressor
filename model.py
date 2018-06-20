@@ -156,7 +156,6 @@ def build_graph(x_, y_, is_training, aug_flag, actmap_flag, model, random_crop_r
     VGG-16 64 64 LRN max 128 128 max 256 256 256 256 max 512 512 512 512 max 512 512 512 512 max 4096 4096 1000
 
     """
-
     if aug_flag:
         print 'aug : True'
         print 'Input shape : {}'.format(x_.get_shape())
@@ -196,9 +195,9 @@ def build_graph(x_, y_, is_training, aug_flag, actmap_flag, model, random_crop_r
         print "logits from Global Average Pooling , No Fully Connected layer "
         logits = logits_gap
     else:
-        fc_out_features = [4096, 4096]
+        fc_out_features = [1024, 1024]
         before_act_bn_mode = [False, False]
-        after_act_bn_mode = [False, False]
+        after_act_bn_mode = [True, True]
         for i in range(len(fc_out_features)):
             with tf.variable_scope('fc_{}'.format(str(i))) as scope:
                 if before_act_bn_mode[i] == True:
