@@ -241,6 +241,8 @@ def make_data(data_id):
         print len(test_paths)
         print len(test_cacs)
 
+        print test_paths
+
 
 if '__main__' == __name__:
     make_data(data_id='0100-0000003-019')
