@@ -8,6 +8,86 @@ import os
 import random
 import glob
 import csv
+import tensorflow as tf
+def make_tfrecord(tfrecord_path, resize ,*args ):
+    """
+    img source 에는 두가지 형태로 존재합니다 . str type 의 path 와
+    numpy 형태의 list 입니다.
+    :param tfrecord_path: e.g) './tmp.tfrecord'
+    :param img_sources: e.g)[./pic1.png , ./pic2.png] or list flatted_imgs
+    img_sources could be string , or numpy
+    :param labels: 3.g) [1,1,1,1,1,0,0,0,0]
+    :return:
+    """
+    if os.path.exists(tfrecord_path):
+        print tfrecord_path + 'is exists'
+        return
+    def _bytes_feature(value):
+        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
+
+    def _int64_feature(value):
+        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
+
+    writer = tf.python_io.TFRecordWriter(tfrecord_path)
+
+    flag=True
+    n_total =0
+    counts = []
+    for i,arg in enumerate(args):
+        print 'Label :{} , # : {} '.format(i , arg[0])
+        n_total += arg[0]
+        counts.append(0)
+
+    while(flag):
+        label=random.randint(0,len(args)-1)
+        n_max = args[label][0]
+        if counts[label] < n_max:
+            imgs = args[label][1]
+            n_imgs = len(args[label][1])
+            ind = counts[label] % n_imgs
+            np_img = imgs[ind]
+            counts[label] += 1
+        elif np.sum(np.asarray(counts)) ==  n_total:
+            for i, count in enumerate(counts):
+                print 'Label : {} , # : {} '.format(i, count )
+            flag = False
+        else:
+            continue;
+
+        height, width = np.shape(np_img)[:2]
+
+        msg = '\r-Progress : {0}'.format(str(np.sum(np.asarray(counts))) + '/' + str(n_total))
+        sys.stdout.write(msg)
+        sys.stdout.flush()
+        if not resize is None:
+            np_img = np.asarray(Image.fromarray(np_img).resize(resize, Image.ANTIALIAS))
+        raw_img = np_img.tostring()  # ** Image to String **
+        example = tf.train.Example(features=tf.train.Features(feature={
+            'height': _int64_feature(height),
+            'width': _int64_feature(width),
+            'raw_image': _bytes_feature(raw_img),
+            'label': _int64_feature(label),
+            'filename': _bytes_feature(tf.compat.as_bytes(str(ind)))
+        }))
+        writer.write(example.SerializeToString())
+    writer.close()
+
+def extract_paths_cacs(patient_info , img_dir):
+
+    # img_dir - pat_code - exam_date
+    # patient_info = [[pat_code ,exam_date , cac_scores] , [pat_code ,exam_date , cac_scores] ... ]
+    ret_paths = []
+    ret_cacs = []
+    for elements in patient_info:
+        pat_code, exam_date, cac_score = elements
+        tmp_paths = match_path2image(pat_code, exam_date, img_dir, 'png')
+        ret_paths.extend(tmp_paths)
+        ret_cacs.extend([cac_score] * len(tmp_paths))
+    print '# of paths {}: '.format(len(ret_paths))
+    print '# of cacs {}: '.format(len(ret_cacs))
+    return ret_paths , ret_cacs
+
+
 
 def paths2numpy(paths , savepath):
     imgs= []
@@ -205,44 +285,13 @@ def make_data(data_id):
 
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
-
-
         img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
-        train_cacs = []
-        train_paths = []
-        for train_elements in [lab_0_train, lab_1_train, lab_1_train,lab_1_train]:
-            for elements in train_elements:
-                pat_code, exam_date, cac_score = elements
-                tmp_paths = match_path2image(pat_code, exam_date, img_dir, 'png')
-                train_paths.extend(tmp_paths)
-                train_cacs.extend([cac_score] * len(tmp_paths))
-        print len(train_paths)
-        print len(train_cacs)
-
-        val_cacs = []
-        val_paths = []
-        for val_elements in [lab_0_val, lab_1_val]:
-            for elements in val_elements:
-                pat_code, exam_date, cac_score = elements
-                tmp_paths = match_path2image(pat_code, exam_date, img_dir, 'png')
-                val_paths.extend(tmp_paths)
-                val_cacs.extend([cac_score] * len(tmp_paths))
-        print len(val_paths)
-        print len(val_cacs)
-
-        test_cacs = []
-        test_paths = []
-        for test_elements in [lab_0_test, lab_1_test]:
-            for elements in test_elements:
-                pat_code, exam_date, cac_score = elements
-                tmp_paths = match_path2image(pat_code, exam_date, img_dir, 'png')
-                test_paths.extend(tmp_paths)
-                test_cacs.extend([cac_score] * len(tmp_paths))
-        print len(test_paths)
-        print len(test_cacs)
-
-        print test_paths
-
+        train_tfrecord_path = './train.tfrecord'
+        lab_0_train_paths = extract_paths_cacs(lab_0_train, img_dir)
+        lab_1_train_paths = extract_paths_cacs(lab_1_train, img_dir)
+        imgs_0 = paths2numpy(lab_0_train_paths, None)
+        imgs_1 = paths2numpy(lab_1_train_paths, None)
+        make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) , (len(imgs_0), imgs_0) ,(len(imgs_0), imgs_0))
 
 if '__main__' == __name__:
     make_data(data_id='0100-0000003-019')
