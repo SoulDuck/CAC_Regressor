@@ -289,6 +289,7 @@ def make_data(data_id):
         train_tfrecord_path = './train.tfrecord'
         lab_0_train_paths = extract_paths_cacs(lab_0_train, img_dir)
         lab_1_train_paths = extract_paths_cacs(lab_1_train, img_dir)
+        print lab_0_train
         imgs_0 = paths2numpy(lab_0_train_paths, None)
         imgs_1 = paths2numpy(lab_1_train_paths, None)
         make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) , (len(imgs_0), imgs_0) ,(len(imgs_0), imgs_0))
