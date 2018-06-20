@@ -91,7 +91,9 @@ def extract_paths_cacs(patient_info , img_dir):
 
 def paths2numpy(paths , savepath):
     imgs= []
-    for path in paths:
+    for i,path in enumerate(paths):
+        sys.stdout.write('\r progress {} {} '.format(i , len(paths)))
+        sys.stdout.flush()
         img=Image.open(path)
         img=np.asarray(img)
         imgs.append(img)
