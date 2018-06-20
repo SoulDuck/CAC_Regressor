@@ -152,7 +152,44 @@ def sort_cac(csv_path , data_id):
                 lab_0.append([pat_code, exam_date, cac_score])
             elif cac_score < 1000000:
                 lab_1.append([pat_code, exam_date, cac_score])
+
         return lab_0, lab_1
+    elif data_id == '0100-0000003-020':
+        # 0 - 150 , 150 명
+        # 10 - inf : 150 , 150 명
+        lab_0, lab_1 = [], []
+
+        f = open(csv_path, 'r')
+
+        for line in f.readlines():
+
+            pat_code, cac_score, exam_date = line.split(',')[:3]
+            cac_score = float(cac_score)
+            if cac_score < 30:  # label 0
+                lab_0.append([pat_code, exam_date, cac_score])
+            elif cac_score < 1000000:
+                lab_1.append([pat_code, exam_date, cac_score])
+        return lab_0, lab_1
+
+    elif data_id == '0100-0000003-021':
+        # 0 - 150 , 150 명
+        # 10 - inf : 150 , 150 명
+        lab_0, lab_1 = [], []
+
+        f = open(csv_path, 'r')
+
+        for line in f.readlines():
+
+            pat_code, cac_score, exam_date = line.split(',')[:3]
+            cac_score = float(cac_score)
+            if cac_score < 50:  # label 0
+                lab_0.append([pat_code, exam_date, cac_score])
+            elif cac_score < 1000000:
+                lab_1.append([pat_code, exam_date, cac_score])
+        return lab_0, lab_1
+
+    else:
+        raise NotImplementedError
 
 
 def divide_paths_TVT(paths, n_val , n_test , prefix =None ):
@@ -292,6 +329,66 @@ def make_data(data_id):
         train_tfrecord_path = './train_0_10_11_inf.tfrecord'
         test_tfrecord_path = './test_0_10_11_inf.tfrecord'
         val_tfrecord_path = './val_0_10_11_inf.tfrecord'
+        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
+        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
+
+        lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
+        lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
+
+        lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
+        lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
+
+        if not os.path.exists(train_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_train_paths, None)
+            imgs_1 = paths2numpy(lab_1_train_paths, None)
+            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+        if not os.path.exists(test_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_val_paths, None)
+            imgs_1 = paths2numpy(lab_1_val_paths, None)
+            make_tfrecord(test_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) )
+        if not os.path.exists(val_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_test_paths, None)
+            imgs_1 = paths2numpy(lab_1_test_paths, None)
+            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1))
+
+    elif data_id == '0100-0000003-020':
+        lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id)
+        lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
+        lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
+        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
+        train_tfrecord_path = './train_0_30_31_inf.tfrecord'
+        test_tfrecord_path = './test_0_30_31_inf.tfrecord'
+        val_tfrecord_path = './val_0_30_31_inf.tfrecord'
+        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
+        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
+
+        lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
+        lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
+
+        lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
+        lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
+
+        if not os.path.exists(train_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_train_paths, None)
+            imgs_1 = paths2numpy(lab_1_train_paths, None)
+            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+        if not os.path.exists(test_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_val_paths, None)
+            imgs_1 = paths2numpy(lab_1_val_paths, None)
+            make_tfrecord(test_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) )
+        if not os.path.exists(val_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_test_paths, None)
+            imgs_1 = paths2numpy(lab_1_test_paths, None)
+            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1))
+
+    elif data_id == '0100-0000003-021':
+        lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id)
+        lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
+        lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
+        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
+        train_tfrecord_path = './train_0_50_51_inf.tfrecord'
+        test_tfrecord_path = './test_0_50_51_inf.tfrecord'
+        val_tfrecord_path = './val_0_50_51_inf.tfrecord'
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
 
