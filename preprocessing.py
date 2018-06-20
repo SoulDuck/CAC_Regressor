@@ -305,11 +305,11 @@ def make_data(data_id):
             imgs_0 = paths2numpy(lab_0_train_paths, None)
             imgs_1 = paths2numpy(lab_1_train_paths, None)
             make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
-        if not os.path.exists(val_tfrecord_path):
+        if not os.path.exists(test_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_val_paths, None)
             imgs_1 = paths2numpy(lab_1_val_paths, None)
             make_tfrecord(test_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) )
-        if not os.path.exists(test_tfrecord_path):
+        if not os.path.exists(val_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_test_paths, None)
             imgs_1 = paths2numpy(lab_1_test_paths, None)
             make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1))
