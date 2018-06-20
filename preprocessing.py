@@ -98,7 +98,8 @@ def paths2numpy(paths , savepath):
         img=np.asarray(img)
         imgs.append(img)
     imgs=np.asarray(imgs)
-    np.save(file = savepath , arr = imgs)
+    if not savepath is None:
+        np.save(file = savepath , arr = imgs)
     return imgs
 
 
