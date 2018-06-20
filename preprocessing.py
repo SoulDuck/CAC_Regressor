@@ -290,14 +290,14 @@ def make_data(data_id):
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
         img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_tfrecord_path = './train.tfrecord'
-        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
-        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
+        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:2], img_dir)
+        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:2], img_dir)
 
-        lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
-        lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
+        lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:2], img_dir)
+        lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:2], img_dir)
 
-        lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
-        lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
+        lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:2], img_dir)
+        lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:2], img_dir)
 
         imgs_0 = paths2numpy(lab_0_train_paths, None)
         imgs_1 = paths2numpy(lab_1_train_paths, None)
