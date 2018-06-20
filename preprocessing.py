@@ -287,9 +287,10 @@ def make_data(data_id):
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
         img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_tfrecord_path = './train.tfrecord'
-        lab_0_train_paths = extract_paths_cacs(lab_0_train, img_dir)
-        lab_1_train_paths = extract_paths_cacs(lab_1_train, img_dir)
-        print lab_0_train
+        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train, img_dir)
+        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train, img_dir)
+
+
         imgs_0 = paths2numpy(lab_0_train_paths, None)
         imgs_1 = paths2numpy(lab_1_train_paths, None)
         make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) , (len(imgs_0), imgs_0) ,(len(imgs_0), imgs_0))
