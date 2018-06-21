@@ -461,7 +461,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         if not os.path.exists(train_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_train_paths, None , 'projection')
             imgs_1 = paths2numpy(lab_1_train_paths, None ,'projection')
-            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+            make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
         if not os.path.exists(test_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_val_paths, None ,'projection')
             imgs_1 = paths2numpy(lab_1_val_paths, None ,'projection')
