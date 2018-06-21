@@ -7,6 +7,20 @@ import cv2
 import imgaug as ia
 from imgaug import augmenters as iaa
 
+
+def fundus_projection(img , scale):
+    radius=scale/2
+    blur_img=cv2.GaussianBlur(img,(0 ,0) , scale/30)
+    merge_img=cv2.addWeighted(img , 4 , blur_img , -4 , 128)
+    b = np.zeros(img.shape)
+    cv2.circle(b , (radius,radius) , int(radius*0.9) , (1,1,1), -1 , 8 , 0 )
+    merge_img = merge_img * b + 128 * (1 - b)
+    return merge_img
+
+def apply_projection(imgs , scale):
+    imgs=map(lambda img : fundus_projection(img , scale) , imgs)
+    return imgs
+
 def clahe_equalized(img):
     if len(img.shape) == 2:
         img=np.reshape(img, list(np.shape(img)) +[1])
@@ -20,13 +34,10 @@ def clahe_equalized(img):
         img = clahe.apply(np.array(img, dtype = np.uint8))
     return img
 
-
 def random_rotate_90(images):
     k=np.random.randint(0,4)
     images=np.rot90(images , k , axes =(1,2))
     return images
-
-
 
 def random_rotate_with_PIL(image):
 
@@ -47,12 +58,7 @@ def histo_equalized(img):
     assert (len(np.shape(img))==2)  ,' image shape : {} '.format(np.shape(img)) #4D arrays
     return cv2.equalizeHist(np.array(img, dtype = np.uint8))
 
-
-
-
 def aug_lv0(image_ , is_training , image_size , channel=3 , color =False):
-
-
     def aug_with_train(image, image_size):
 
         image = tf.image.resize_image_with_crop_or_pad(image, image_size+4, image_size+4)
@@ -75,10 +81,7 @@ def aug_lv0(image_ , is_training , image_size , channel=3 , color =False):
 
     image=tf.cond(is_training , lambda : aug_with_train(image_ , image_size=image_size)  , \
                   lambda  : aug_with_test(image_ , image_size=image_size) )
-
-
     return image
-
 
 def aug_lv1(images):
     seq = iaa.Sequential([
