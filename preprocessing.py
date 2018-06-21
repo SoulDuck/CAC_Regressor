@@ -13,7 +13,6 @@ parser=argparse.ArgumentParser()
 parser.add_argument('--img_dir' , type = str)
 args=parser.parse_args()
 
-
 def make_tfrecord(tfrecord_path, resize ,*args ):
     """
     img source 에는 두가지 형태로 존재합니다 . str type 의 path 와
@@ -34,7 +33,6 @@ def make_tfrecord(tfrecord_path, resize ,*args ):
         return tf.train.Feature(int64_list=tf.train.Int64List(value=[value]))
 
     writer = tf.python_io.TFRecordWriter(tfrecord_path)
-
     flag=True
     n_total =0
     counts = []
@@ -361,6 +359,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         train_tfrecord_path = './train_0_30_31_inf.tfrecord'
         test_tfrecord_path = './test_0_30_31_inf.tfrecord'
         val_tfrecord_path = './val_0_30_31_inf.tfrecord'
+
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
 
@@ -373,7 +372,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         if not os.path.exists(train_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_train_paths, None)
             imgs_1 = paths2numpy(lab_1_train_paths, None)
-            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+            make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
         if not os.path.exists(test_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_val_paths, None)
             imgs_1 = paths2numpy(lab_1_val_paths, None)
