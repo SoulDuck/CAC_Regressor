@@ -9,6 +9,12 @@ import random
 import glob
 import csv
 import tensorflow as tf
+import argparse
+parser=argparse.ArgumentParser()
+parser.add_argument('--img_dir' , type = str)
+args=parser.parse_args()
+
+
 def make_tfrecord(tfrecord_path, resize ,*args ):
     """
     img source 에는 두가지 형태로 존재합니다 . str type 의 path 와
@@ -245,8 +251,8 @@ def crop_margin(image , resize ):
     return crop_img
 
 
-def make_data(data_id):
-    # data ID : 0100	0000003	018
+def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'):
+    # data ID : 0100-0000003	018
     if data_id == '0100-0000003-018':
         #match_image2label('merged_cacs_info_with_path.csv' , './' )
         lab_0, lab_1, lab_2, lab_3=sort_cac('merged_cacs_info_with_path.csv')
@@ -274,7 +280,6 @@ def make_data(data_id):
 
 
 
-        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_cacs = []
         train_paths = []
         for train_elements in [lab_0_train ,lab_1_train,lab_2_train,lab_3_train]:
@@ -325,7 +330,6 @@ def make_data(data_id):
 
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
-        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_tfrecord_path = './train_0_10_11_inf.tfrecord'
         test_tfrecord_path = './test_0_10_11_inf.tfrecord'
         val_tfrecord_path = './val_0_10_11_inf.tfrecord'
@@ -355,7 +359,6 @@ def make_data(data_id):
         lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id)
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
-        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_tfrecord_path = './train_0_30_31_inf.tfrecord'
         test_tfrecord_path = './test_0_30_31_inf.tfrecord'
         val_tfrecord_path = './val_0_30_31_inf.tfrecord'
@@ -385,7 +388,6 @@ def make_data(data_id):
         lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id)
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
-        img_dir = '/home/mediwhale/fundus_harddisk/merged_reg_fundus_540'
         train_tfrecord_path = './train_0_50_51_inf.tfrecord'
         test_tfrecord_path = './test_0_50_51_inf.tfrecord'
         val_tfrecord_path = './val_0_50_51_inf.tfrecord'
@@ -413,6 +415,7 @@ def make_data(data_id):
 
 
 if '__main__' == __name__:
-    make_data(data_id='0100-0000003-019')
+    img_dir = args.img_dir
+    make_data(data_id='0100-0000003-020' , img_dir = img_dir)
 
 
