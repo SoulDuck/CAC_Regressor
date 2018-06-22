@@ -367,19 +367,6 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
         lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
 
-
-        print len(lab_0_test_paths + lab_1_test_paths)
-
-        print len(lab_0_val_paths + lab_1_val_paths)
-        for test_path in lab_0_val_paths + lab_1_val_paths:
-            print test_path
-            img = np.asarray(Image.open(test_path))
-            plt.imsave('delete.png', img)
-
-
-            exit()
-
-
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
 
