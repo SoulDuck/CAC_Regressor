@@ -356,19 +356,16 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         test_tfrecord_path = './test_0_10_11_inf.tfrecord'
         val_tfrecord_path = './val_0_10_11_inf.tfrecord'
 
-
-
-
         lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
         lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
-        print len(lab_0_val_paths +lab_1_val_paths  )
-        for path in lab_1_val_paths + lab_0_val_paths:
-            print path
-        exit()
-
 
         lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
         lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
+
+        print len(lab_0_val_paths + lab_1_val_paths)
+        for path in lab_1_val_paths + lab_0_val_paths:
+            print path
+        exit()
 
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
