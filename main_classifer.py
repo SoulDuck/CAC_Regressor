@@ -42,9 +42,6 @@ pred, pred_cls, cost_op, cost_mean,train_op, correct_pred, accuracy_op = algorit
 
 
 for i in range(100000):
-
-
-
     batch_xs, batch_ys = batch_selector(train_imgs, train_labs, 5, 5, 5, 5)
     #print np.shape(batch_xs) , np.shape(batch_ys)
     batch_xs = batch_xs / 255.

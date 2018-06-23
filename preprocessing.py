@@ -160,7 +160,6 @@ def sort_cac(csv_path , data_id):
         f = open(csv_path, 'r')
 
         for line in f.readlines():
-
             pat_code, cac_score, exam_date = line.split(',')[:3]
             cac_score = float(cac_score)
             if cac_score < 10:  # label 0
@@ -362,6 +361,9 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
         lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
+
+        print len(lab_1_test_paths)
+        exit()
 
 
         lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
