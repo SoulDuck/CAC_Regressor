@@ -364,8 +364,9 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         print len(lab_0_val_paths + lab_1_val_paths)
         for i,path in enumerate(lab_1_val_paths + lab_0_val_paths):
+            name=os.path.splitext(os.path.split(path)[-1])[0]
             img = np.asarray(Image.open(path))
-            plt.imsave('tmp/{}.png'.format(i) , img)
+            plt.imsave('tmp/{}.png'.format(name) , img)
 
         exit()
 
