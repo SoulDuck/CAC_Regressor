@@ -361,22 +361,22 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
         lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
-        """
+
         f = open('./val_labels.txt' ,'w')
         for i,path in enumerate(lab_1_val_paths):
             name=os.path.splitext(os.path.split(path)[-1])[0]
             img = np.asarray(Image.open(path))
-            plt.imsave('tmp/{}.png'.format(name) , img)
+            plt.imsave('0100-0000003-019_label_1/{}.png'.format(name) , img)
             f.write(str(1)+'\n')
 
 
         for i,path in enumerate(lab_0_val_paths):
             name=os.path.splitext(os.path.split(path)[-1])[0]
             img = np.asarray(Image.open(path))
-            plt.imsave('tmp/{}.png'.format(name) , img)
+            plt.imsave('0100-0000003-019_label_0/{}.png'.format(name) , img)
             f.write(str(0)+'\n')
         exit()
-        """
+
 
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
