@@ -361,8 +361,9 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
         lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
-
         print len(lab_1_test_paths)
+        for path in lab_1_test_paths + lab_0_test_paths:
+            print path
         exit()
 
 
@@ -371,10 +372,6 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
-
-
-
-
 
         if not os.path.exists(train_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_train_paths, None)
