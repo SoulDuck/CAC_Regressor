@@ -375,7 +375,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
             img = np.asarray(Image.open(path))
             plt.imsave('tmp/{}.png'.format(name) , img)
             f.write(str(0)+'\n')
-
+        exit()
 
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
