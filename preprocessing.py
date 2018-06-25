@@ -488,6 +488,6 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
 if '__main__' == __name__:
     img_dir = args.img_dir
-    make_data(data_id='0100-0000003-019' , img_dir = img_dir)
+    make_data(data_id='0100-0000003-021' , img_dir = img_dir)
 
 
