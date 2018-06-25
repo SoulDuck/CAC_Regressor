@@ -361,7 +361,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
         lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
         lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
-
+        """
         f = open('./val_labels.txt' ,'w')
         for i,path in enumerate(lab_1_val_paths):
             name=os.path.splitext(os.path.split(path)[-1])[0]
@@ -376,7 +376,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
             plt.imsave('0100-0000003-019_label_0/{}.png'.format(name) , img)
             f.write(str(0)+'\n')
         exit()
-
+        """
 
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
@@ -428,9 +428,9 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id)
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
-        train_tfrecord_path = './train_0_50_51_inf.tfrecord'
-        test_tfrecord_path = './test_0_50_51_inf.tfrecord'
-        val_tfrecord_path = './val_0_50_51_inf.tfrecord'
+        train_tfrecord_path = './0100-0000003-021/train_0_50_51_inf.tfrecord'
+        test_tfrecord_path = './0100-0000003-021/test_0_50_51_inf.tfrecord'
+        val_tfrecord_path = './0100-0000003-021/val_0_50_51_inf.tfrecord'
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
 
@@ -443,7 +443,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         if not os.path.exists(train_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_train_paths, None)
             imgs_1 = paths2numpy(lab_1_train_paths, None)
-            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+            make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
         if not os.path.exists(test_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_val_paths, None)
             imgs_1 = paths2numpy(lab_1_val_paths, None)
