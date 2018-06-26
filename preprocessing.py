@@ -168,22 +168,6 @@ def sort_cac(csv_path , data_id):
                 lab_1.append([pat_code, exam_date, cac_score])
 
         return lab_0, lab_1
-    elif data_id == '0100-0000003-020':
-        # 0 - 150 , 150 명
-        # 10 - inf : 150 , 150 명
-        lab_0, lab_1 = [], []
-
-        f = open(csv_path, 'r')
-
-        for line in f.readlines():
-
-            pat_code, cac_score, exam_date = line.split(',')[:3]
-            cac_score = float(cac_score)
-            if cac_score < 30:  # label 0
-                lab_0.append([pat_code, exam_date, cac_score])
-            elif cac_score < 1000000:
-                lab_1.append([pat_code, exam_date, cac_score])
-        return lab_0, lab_1
 
     elif data_id == '0100-0000003-021':
         # 0 - 150 , 150 명
@@ -216,8 +200,28 @@ def sort_cac(csv_path , data_id):
             elif cac_score < 1000000:
                 lab_1.append([pat_code, exam_date, cac_score])
         return lab_0, lab_1
+
+    elif data_id == '0100-0000003-020':
+        # 0 - 150 , 150 명
+        # 10 - inf : 150 , 150 명
+        lab_0, lab_1 = [], []
+
+        f = open(csv_path, 'r')
+
+        for line in f.readlines():
+
+            pat_code, cac_score, exam_date = line.split(',')[:3]
+            cac_score = float(cac_score)
+            if cac_score < 30:  # label 0
+                lab_0.append([pat_code, exam_date, cac_score])
+            elif cac_score < 1000000:
+                lab_1.append([pat_code, exam_date, cac_score])
+        return lab_0, lab_1
+
     else:
         raise NotImplementedError
+
+
 
 
 def divide_paths_TVT(paths, n_val , n_test , prefix =None ):
