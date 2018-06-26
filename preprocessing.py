@@ -377,10 +377,8 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
             f.write(str(0)+'\n')
         exit()
         """
-
         lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
         lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
-
         if not os.path.exists(train_tfrecord_path):
             imgs_0 = paths2numpy(lab_0_train_paths, None)
             imgs_1 = paths2numpy(lab_1_train_paths, None)
@@ -459,6 +457,7 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
         lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, 75, 75)
         lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, 75, 75)
 
+
         train_tfrecord_path = './0100-0000003-022/train_0_10_11_inf.tfrecord'
         test_tfrecord_path = './0100-0000003-022/test_0_10_11_inf.tfrecord'
         val_tfrecord_path = './0100-0000003-022/val_0_10_11_inf.tfrecord'
@@ -487,7 +486,10 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
 
 
 if '__main__' == __name__:
+
+
+    # '/Volumes/Seagate Backup Plus Drive/IMAC/0100-0000003-016/merged_reg_fundus_540'
     img_dir = args.img_dir
-    make_data(data_id='0100-0000003-021' , img_dir = img_dir)
+    make_data(data_id='0100-0000003-020' , img_dir = img_dir)
 
 
