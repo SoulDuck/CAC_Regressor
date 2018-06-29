@@ -168,6 +168,22 @@ def sort_cac(csv_path , data_id):
                 lab_1.append([pat_code, exam_date, cac_score])
 
         return lab_0, lab_1
+    elif data_id == '0100-0000003-020':
+        # 0 - 150 , 150 명
+        # 10 - inf : 150 , 150 명
+        lab_0, lab_1 = [], []
+
+        f = open(csv_path, 'r')
+
+        for line in f.readlines():
+
+            pat_code, cac_score, exam_date = line.split(',')[:3]
+            cac_score = float(cac_score)
+            if cac_score < 30:  # label 0
+                lab_0.append([pat_code, exam_date, cac_score])
+            elif cac_score < 1000000:
+                lab_1.append([pat_code, exam_date, cac_score])
+        return lab_0, lab_1
 
     elif data_id == '0100-0000003-021':
         # 0 - 150 , 150 명
@@ -201,18 +217,16 @@ def sort_cac(csv_path , data_id):
                 lab_1.append([pat_code, exam_date, cac_score])
         return lab_0, lab_1
 
-    elif data_id == '0100-0000003-020':
-        # 0 - 150 , 150 명
+    elif data_id == '0100-0000003-023':
+        # 0 - 150 , 200 명
         # 10 - inf : 150 , 150 명
         lab_0, lab_1 = [], []
 
         f = open(csv_path, 'r')
-
         for line in f.readlines():
-
             pat_code, cac_score, exam_date = line.split(',')[:3]
             cac_score = float(cac_score)
-            if cac_score < 30:  # label 0
+            if cac_score < 10:  # label 0
                 lab_0.append([pat_code, exam_date, cac_score])
             elif cac_score < 1000000:
                 lab_1.append([pat_code, exam_date, cac_score])
@@ -489,11 +503,46 @@ def make_data(data_id , img_dir ='/home/mediwhale/fundus_harddisk/merged_reg_fun
             make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1))
 
 
+    elif data_id == '0100-0000003-023':
+        lab_0, lab_1 =sort_cac('merged_cacs_info_with_path.csv' , data_id) # lab_0 10174 , lab_1 3850
+
+
+        lab_0_train, lab_0_val, lab_0_test = divide_paths_TVT(lab_0, n_val = 100, n_test = 1017)
+        lab_1_train, lab_1_val, lab_1_test = divide_paths_TVT(lab_1, n_val = 100, n_test =385)
+
+
+        train_tfrecord_path = './0100-0000003-022/train_0_10_11_inf.tfrecord'
+        test_tfrecord_path = './0100-0000003-022/test_0_10_11_inf.tfrecord'
+        val_tfrecord_path = './0100-0000003-022/val_0_10_11_inf.tfrecord'
+
+        lab_1_train_paths, lab_1_train_cacs = extract_paths_cacs(lab_1_train[:], img_dir)
+        lab_0_train_paths , lab_0_train_cacs = extract_paths_cacs(lab_0_train[:], img_dir)
+
+        lab_1_val_paths, lab_1_val_cacs = extract_paths_cacs(lab_1_val[:], img_dir)
+        lab_0_val_paths , lab_0_val_cacs = extract_paths_cacs(lab_0_val[:], img_dir)
+
+        lab_1_test_paths, lab_1_test_cacs = extract_paths_cacs(lab_1_test[:], img_dir)
+        lab_0_test_paths , lab_0_test_cacs = extract_paths_cacs(lab_0_test[:], img_dir)
+
+        if not os.path.exists(train_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_train_paths, None , 'projection')
+            imgs_1 = paths2numpy(lab_1_train_paths, None ,'projection')
+            make_tfrecord(train_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_0), imgs_1))
+        if not os.path.exists(test_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_val_paths, None ,'projection')
+            imgs_1 = paths2numpy(lab_1_val_paths, None ,'projection')
+            make_tfrecord(test_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1) )
+        if not os.path.exists(val_tfrecord_path):
+            imgs_0 = paths2numpy(lab_0_test_paths, None ,'projection')
+            imgs_1 = paths2numpy(lab_1_test_paths, None,'projection')
+            make_tfrecord(val_tfrecord_path, None, (len(imgs_0), imgs_0) , (len(imgs_1), imgs_1))
+
+
 if '__main__' == __name__:
 
 
     # '/Volumes/Seagate Backup Plus Drive/IMAC/0100-0000003-016/merged_reg_fundus_540'
     img_dir = args.img_dir
-    make_data(data_id='0100-0000003-020' , img_dir = img_dir)
+    make_data(data_id='0100-0000003-023' , img_dir = img_dir)
 
 
